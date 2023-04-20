@@ -6,7 +6,9 @@ import {
     TouchableOpacity,
     View,
     SafeAreaView,
+    SectionList,
 } from "react-native";
+import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { Message } from 'rsuite';
@@ -42,6 +44,7 @@ const HomeScreen = ({ route, navigation }) => {
             ...vals,
         });
     };
+    const logo = require('../assets/zeal.png');
     useEffect(() => {
         getMerchandise((data) => {
             if (data == null) {
@@ -186,18 +189,26 @@ const HomeScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View>
-            <Message type="success" closable>
-                This is Success Messages
-            </Message>
-            <Text>Work has Started</Text>
-            <SafeAreaView style={{ flex: 1 }}>
-                <FlatList
-                    extraData={state}
-                    data={state.merchandise}
-                    renderItem={renderItem}
+        <View style={{ flex: 1, alignItems: 'center' }}>
+            <View style={{ flex: 1, maxWidth: 500, backgroundColor: 'white', minWidth: 300, alignItems: 'center' }}>
+                <Message type="success" closable>
+                    This is Success Messages
+                </Message>
+                <Text>Work has Started</Text>
+                <Image
+                    style={{ height: 200, width: 120 }}
+                    source={logo}
                 />
-            </SafeAreaView>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <FlatList
+                        style={{ backgroundColor: 'red' }}
+                        extraData={state}
+                        data={state.merchandise}
+                        renderItem={renderItem}
+                    />
+                </SafeAreaView>
+
+            </View>
         </View>
     );
 };
@@ -226,6 +237,24 @@ const styles = StyleSheet.create({
     list: {
         Height: "50%",
     },
+    container: {
+        flex: 1,
+        paddingTop: 22,
+    },
+    sectionHeader: {
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 2,
+        fonSize: 14,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(247,247,247,1.0)',
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+    }
 });
 
 export default HomeScreen;
