@@ -11,6 +11,7 @@ import RecoverAccountScreen from './screens/RecoverAccountScreen';
 import PasswordResetScreen from './screens/PasswordResetScreen';
 import AccountInfoScreen from './screens/AccountInfoScreen';
 import UpdateAccountScreen from './screens/UpdateAccountScreen';
+import LocationScreen from './screens/LoacationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="Password Reset" component={PasswordResetScreen} />
         <Stack.Screen name="Account Info" component={AccountInfoScreen} />
         <Stack.Screen name="Update Account" component={UpdateAccountScreen} />
+        <Stack.Screen name="Location" component={LocationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

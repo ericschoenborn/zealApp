@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { Button, Input } from '@rneui/themed';
-
 import { Ionicons } from '@expo/vector-icons';
 import { createUser } from "../api/ZealAfTestRequest";
 
@@ -117,6 +116,7 @@ const NewAccountScreen = ({ route, navigation }) => {
             updateStateObject({ confirm: "", confirmMask: "" })
         }
     }
+    if (isLoaded) return <View><Text>Loading ...</Text></View>
     return (
         <View>
             <SafeAreaView style={{ flex: 1 }}>
@@ -204,6 +204,7 @@ const NewAccountScreen = ({ route, navigation }) => {
                     errorMessage={validate(state.pronouns)}
                     onChangeText={(val) => updateStateObject({ pronouns: val })}
                 />
+
             </SafeAreaView>
             {createResponse()}
             <Button

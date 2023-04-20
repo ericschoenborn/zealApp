@@ -6,14 +6,11 @@ import {
     TouchableOpacity,
     View,
     SafeAreaView,
-    SectionList,
 } from "react-native";
 import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import { Message } from 'rsuite';
 import 'rsuite/styles/index.less';
-import { useIdleTimer } from 'react-idle-timer';
 import { getMerchandise, getMerchandiseData } from "../api/ZealAfTestRequest";
 import { Button } from '@rneui/themed';
 
@@ -33,6 +30,10 @@ const HomeScreen = ({ route, navigation }) => {
             }
         }
     }
+    const GoogleMapConfig = {
+        key: "AIzaSyC_4VNhymJHcZwEJa-W458jZSifJUA508M",
+        libraries: 'places',
+    };
     const [state, setState] = useState({
         loginHash: getHash(),
         merchandise: null,
@@ -56,17 +57,6 @@ const HomeScreen = ({ route, navigation }) => {
             } else {
                 const userData = data[1];
                 console.log(userData);
-                // const formatedData = {
-                //     firstName: userData['firstName'],
-                //     middleName: userData['middleName'],
-                //     lastName: userData['lastName'],
-                //     email: userData['email'],
-                //     dob: userData['dob'],
-                //     phone: userData['phone'],
-                //     pronouns: userData['pronouns']
-                // }
-                // console.log(formatedData);
-                //updateStateObject({ user: formatedData });
             }
         })
     }, []);
@@ -104,17 +94,6 @@ const HomeScreen = ({ route, navigation }) => {
                 </TouchableOpacity>
             );
         }
-        // const onIdle = () => {
-        //     console.log('fires after 10 minutes');
-        //     updateStateObject({ loginHash: null, loginTime: null })
-        //     getRemainingTime = null;
-        //     //insert any custom logout logic here
-        // }
-
-        // var { getRemainingTime } = useIdleTimer({
-        //     onIdle,
-        //     timeout: 10 * 1000, //10 minute idle timeout
-        // })
 
         return (
             <TouchableOpacity
@@ -191,23 +170,24 @@ const HomeScreen = ({ route, navigation }) => {
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <View style={{ flex: 1, maxWidth: 500, backgroundColor: 'white', minWidth: 300, alignItems: 'center' }}>
-                <Message type="success" closable>
-                    This is Success Messages
-                </Message>
-                <Text>Work has Started</Text>
+                <Button
+                    buttonStyle={[styles.button, styles.right]}
+                    title="Go To Map"
+                    onPress={() => {
+                        navigation.navigate("Location", { hash: state.loginHash });
+                    }}
+                />
                 <Image
-                    style={{ height: 200, width: 120 }}
+                    style={{ height: 50, width: 120 }}
                     source={logo}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
                     <FlatList
-                        style={{ backgroundColor: 'red' }}
                         extraData={state}
                         data={state.merchandise}
                         renderItem={renderItem}
                     />
                 </SafeAreaView>
-
             </View>
         </View>
     );
@@ -258,10 +238,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
-// popup idea
-// import Popup from 'reactjs-popup';
-// import 'reactjs-popup/dist/index.css';
-// <Popup trigger={<button> Trigger</button>} position="right center">
-//                 <div>Popup content here !!</div>
-//             </Popup>
