@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { getMerchandise, getMerchandiseData } from "../api/ZealAfTestRequest";
 import { Button } from '@rneui/themed';
 
@@ -19,21 +19,17 @@ const HomeScreen = ({ route, navigation }) => {
         if (hash) {
             console.log(hash);
             var oneHour = 60 * 60 * 1000;
-            const nows = new Date();
-            new Date(hash.now)
-            if ((nows - ' ') > oneHour) {
+            const nows = new (Date);
+            if ((nows - new Date(hash.now)) > oneHour) {
                 console.log('clear');
                 localStorage.clear();
             } else {
                 console.log(`hash`);
-                return hash.hash;
+                return hash.hash
             }
         }
     }
-    const GoogleMapConfig = {
-        key: "AIzaSyC_4VNhymJHcZwEJa-W458jZSifJUA508M",
-        libraries: 'places',
-    };
+
     const [state, setState] = useState({
         loginHash: getHash(),
         merchandise: null,
@@ -45,25 +41,22 @@ const HomeScreen = ({ route, navigation }) => {
             ...vals,
         });
     };
+
     const logo = require('../assets/zeal.png');
     useEffect(() => {
         getMerchandise((data) => {
             if (data == null) {
                 console.log('oopes');
             } else if (data[0] != null) {
-                console.log('eeeh');
-                console.log(data)
                 updateStateObject({ merchandise: data })
-            } else {
-                const userData = data[1];
-                console.log(userData);
             }
-        })
+        });
     }, []);
     useEffect(() => {
         if (route.params?.loginHash) {
             var now = new Date();
             const hash = route.params.loginHash;
+            console.log('ddid it')
             localStorage.setItem('hash', JSON.stringify({ hash, now }));
             updateStateObject({ loginHash: route.params.loginHash })
         }
@@ -101,7 +94,7 @@ const HomeScreen = ({ route, navigation }) => {
                     navigation.navigate("Login");
                 }}
             >
-                <Entypo name="login" size={24} color="white" />
+                <MaterialCommunityIcons name="location-enter" size={24} color="white" />
             </TouchableOpacity>
         );
     }

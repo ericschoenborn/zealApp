@@ -1,14 +1,13 @@
 import {
     StyleSheet,
-    Text,
     TouchableOpacity,
     View,
-    SafeAreaView
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { Button, Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { createUser } from "../api/ZealAfTestRequest";
+import { RemovableError } from "../components/RemovableError";
 
 const NewAccountScreen = ({ route, navigation }) => {
     const initialField = useRef(null);
@@ -24,7 +23,7 @@ const NewAccountScreen = ({ route, navigation }) => {
         phone: '',
         dob: '',
         pronouns: '',
-        createResponse: '',
+        removableError: '',
     });
     const updateStateObject = (vals) => {
         setState({
@@ -38,20 +37,19 @@ const NewAccountScreen = ({ route, navigation }) => {
         }
     }
     const create = () => {
-        console.log(`password: ${state.password}`)
-        console.log(`conf: ${state.confirm}`)
         if (state.password != state.confirm) {
-            updateStateObject({ createResponse: 'Passwords do not match' })
+            updateStateObject({ removableError: 'Passwords do not match' });
+            return;
         }
 
         if (state.email.length < 3) {
-            updateStateObject({ createResponse: 'Email is required' })
-
+            updateStateObject({ removableError: 'Email is required' })
+            return;
         }
 
         if (state.password.length < 3) {
-            updateStateObject({ createResponse: 'Password is required' })
-
+            updateStateObject({ removableError: 'Password is required' })
+            return;
         }
 
         const formatedData = {
@@ -66,25 +64,19 @@ const NewAccountScreen = ({ route, navigation }) => {
             pronouns: state.pronouns
         }
         createUser((data) => {
-            console.log(data)
             if (data == null) {
                 navigation.navigate("Zeal Areal Fitness", { info: 'Account created!' });
             } else if (data[0] != null) {
-                updateStateObject({ createResponse: data })
-            } else {
-                const userData = data[1];
-                console.log(userData);
+                console.log(data)
+                var formated = data.join(" ");
+                updateStateObject({ removableError: formated })
             }
         }, formatedData)
     }
     function validate(value) {
         return value.length < 1 ? "Required" : "";
     }
-    const createResponse = () => {
-        if (state.createResponse.length > 0) {
-            return <Text>{state.createResponse}</Text>
-        }
-    }
+
     useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
@@ -163,8 +155,6 @@ const NewAccountScreen = ({ route, navigation }) => {
                     placeholder="Middle Name"
                     value={state.middleName}
                     autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.middleName)}
                     onChangeText={(val) => updateStateObject({ middleName: val })}
                 />
                 <Input
@@ -199,12 +189,10 @@ const NewAccountScreen = ({ route, navigation }) => {
                     placeholder="Pronouns"
                     value={state.pronouns}
                     autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.pronouns)}
                     onChangeText={(val) => updateStateObject({ pronouns: val })}
                 />
 
-                {createResponse()}
+                {RemovableError(state.removableError, updateStateObject)}
                 <Button
                     buttonStyle={styles.buttons}
                     title="Create"
@@ -235,8 +223,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         minWidth: 300,
         alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        overflowX: 'hidden'
     },
 });
 

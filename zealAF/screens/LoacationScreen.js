@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import GoogleMap from 'google-map-react';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 const LocationScreen = ({ route, navigation }) => {
     const GoogleMapConfig = {
@@ -27,18 +27,23 @@ const LocationScreen = ({ route, navigation }) => {
             ),
         });
     });
+    const MapPin = () => <FontAwesome name="map-marker" size={24} color="red" />;
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <View style={{ flex: 1, maxWidth: 500, backgroundColor: 'white', minWidth: 300, alignItems: 'center' }}>
                 <GoogleMap
                     yesIWantToUseGoogleMapApiInternals
                     bootstrapURLKeys={GoogleMapConfig}
-                    defaultZoom={16}
+                    defaultZoom={14}
                     defaultCenter={{
-                        lat: 40.854885,
-                        lng: -88.081807,
+                        lat: 42.94232,
+                        lng: -85.6854,
                     }}
-                />
+                ><MapPin
+                        lat={42.94232}
+                        lng={-85.6854}
+                    />
+                </GoogleMap>
             </View>
         </View>
     );

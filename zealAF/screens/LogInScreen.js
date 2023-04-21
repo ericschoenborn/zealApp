@@ -10,15 +10,15 @@ import { Button, Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 
 import { postTest } from '../api/ZealAfTestRequest';
+import { RemovableError } from "../components/RemovableError";
 
 const LogInScreen = ({ route, navigation }) => {
     const initialField = useRef(null);
     const [state, setState] = useState({
-        email: "",
-        password: "",
-        passwordMask: "",
-        loginError: "",
-        loginHash: "aaaa",
+        email: '',
+        password: '',
+        passwordMask: '',
+        removableError: '',
     });
     const updateStateObject = (vals) => {
         setState({
@@ -46,7 +46,7 @@ const LogInScreen = ({ route, navigation }) => {
 
     function loginUser() {
         if (validate(state.email).length > 0 || validate(state.password).length > 0) {
-            updateStateObject({ loginError: "Missing required fields", password: "", passwordMask: "" })
+            updateStateObject({ removableError: "Missing required fields", password: "", passwordMask: "" })
             return false;
         }
         postTest((data) => {
@@ -55,15 +55,11 @@ const LogInScreen = ({ route, navigation }) => {
                 const loginHash = data[1];
                 navigation.navigate("Zeal Areal Fitness", { loginHash });
             } else {
-                updateStateObject({ loginError: data[1], password: "", passwordMask: "" })
+                updateStateObject({ removableError: data[1], password: "", passwordMask: "" })
             }
         }, state.email, state.password);
     }
-    const loginErrorMessage = () => {
-        if (state.loginError.length > 1) {
-            return <Text>{state.loginError}</Text>
-        }
-    }
+
     const updatePassword = (val) => {
         if (val.length > 0) {
             const newPass = `${state.password}${val.slice(-1)}`;
@@ -95,7 +91,7 @@ const LogInScreen = ({ route, navigation }) => {
                     errorMessage={validate(state.password)}
                     onChangeText={(val) => updatePassword(val)}
                 />
-                {loginErrorMessage()}
+                {RemovableError(state.removableError, updateStateObject)}
                 <Button
                     buttonStyle={styles.buttons}
                     title="Login"
@@ -117,7 +113,8 @@ const LogInScreen = ({ route, navigation }) => {
                         navigation.navigate("New Account");
                     }}
                 />
-            </View></View>
+            </View>
+        </View>
     );
 };
 

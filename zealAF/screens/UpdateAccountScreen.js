@@ -1,14 +1,14 @@
 import {
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { Button, Input } from '@rneui/themed';
-
 import { Ionicons } from '@expo/vector-icons';
 import { updateUser } from "../api/ZealAfTestRequest";
+import { RemovableError } from "../components/RemovableError";
+import { RemovableInfo } from "../components/RemovableInfo";
 
 const UpdateAccountScreen = ({ route, navigation }) => {
     const initialField = useRef(null);
@@ -19,10 +19,12 @@ const UpdateAccountScreen = ({ route, navigation }) => {
         firstName: givenUser?.firstName || '',
         middleName: givenUser?.middleName || '',
         lastName: givenUser?.lastName || '',
+        email: givenUser?.email || '',
         phone: givenUser?.phone || '',
         dob: givenUser?.dob || '',
         pronouns: givenUser?.pronouns || '',
-        updateResponse: '',
+        removableError: '',
+        removableInfo: '',
     });
     const updateStateObject = (vals) => {
         setState({
@@ -30,13 +32,7 @@ const UpdateAccountScreen = ({ route, navigation }) => {
             ...vals,
         });
     };
-    const displayInfo = () => {
-        if (route.params?.info) {
-            alert(route.params.info);
-        }
-    }
     const update = () => {
-        console.log(state.dob)
         const formatedData = {
             firstName: state.firstName,
             middleName: state.middleName,
@@ -48,22 +44,29 @@ const UpdateAccountScreen = ({ route, navigation }) => {
         updateUser((data) => {
             console.log(data)
             if (data == null) {
-                navigation.navigate("Account Info", { hash: state.hash, info: 'Account info updated!' });
+                const returnData = {
+                    firstName: state.firstName,
+                    middleName: state.middleName,
+                    lastName: state.lastName,
+                    email: state.email,
+                    dob: state.dob,
+                    phone: state.phone,
+                    pronouns: state.pronouns
+                }
+                navigation.navigate("Account Info", { hash: state.hash, user: returnData, info: 'Account info updated!' });
             } else if (data[0] != null) {
-                updateStateObject({ updateResponse: data })
-            } else {
-                const userData = data[1];
-                console.log(userData);
+                if (Array.isArray(data)) {
+                    var formated = data.join(" ");
+                    console.log(formated)
+                    updateStateObject({ removableError: formated })
+                } else {
+                    updateStateObject({ removableInfo: data })
+                }
             }
         }, state.hash, formatedData)
     }
     function validate(value) {
         return value.length < 1 ? "Required" : "";
-    }
-    const updateResponse = () => {
-        if (state.updateResponse.length > 0) {
-            return <Text>{state.updateResponse}</Text>
-        }
     }
     useEffect(() => {
         navigation.setOptions({
@@ -82,7 +85,6 @@ const UpdateAccountScreen = ({ route, navigation }) => {
     return (
         <View style={styles.page}>
             <View style={styles.panel}>
-                {displayInfo()}
                 <Input
                     style={styles.input}
                     placeholder="First Name"
@@ -138,7 +140,8 @@ const UpdateAccountScreen = ({ route, navigation }) => {
                     errorMessage={validate(state.pronouns)}
                     onChangeText={(val) => updateStateObject({ pronouns: val })}
                 />
-                {updateResponse()}
+                {RemovableError(state.removableError, updateStateObject)}
+                {RemovableInfo(state.removableInfo, updateStateObject)}
                 <Button
                     buttonStyle={styles.buttons}
                     title="Update"

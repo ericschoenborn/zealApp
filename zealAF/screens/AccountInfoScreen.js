@@ -5,15 +5,17 @@ import {
     View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Input } from '@rneui/themed';
-
+import { Button } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { logOut, getUser } from "../api/ZealAfTestRequest";
+import { RemovableInfo } from "../components/RemovableInfo";
 
 const AccountInfoScreen = ({ route, navigation }) => {
     const givenHash = route.params?.hash || null;
+    const givenInfo = route.params?.info || '';
     const [state, setState] = useState({
         hash: givenHash,
+        removableInfo: givenInfo,
         user: null,
     });
     const updateStateObject = (vals) => {
@@ -34,18 +36,18 @@ const AccountInfoScreen = ({ route, navigation }) => {
             }
         }, state.hash);
     }
-    const displayInfo = () => {
-        console.log(route.params);
+
+    useEffect(() => {
+        console.log(route.params)
         if (route.params?.info) {
-            alert(route.params.info);
+            updateStateObject({ removableInfo: route.params.info, user: route.params.user });
         }
-    }
+    }, [route.params?.info]);
+
     useEffect(() => {
         getUser((data) => {
             if (data == null) {
                 console.log('oopes');
-            } else if (data[0] != null) {
-                console.log('eeeh');
             } else {
                 const userData = data[1];
                 console.log(userData);
@@ -58,7 +60,6 @@ const AccountInfoScreen = ({ route, navigation }) => {
                     phone: userData['phone'],
                     pronouns: userData['pronouns']
                 }
-                console.log(formatedData);
                 updateStateObject({ user: formatedData });
             }
         }, state.hash)
@@ -81,7 +82,7 @@ const AccountInfoScreen = ({ route, navigation }) => {
     return (
         <View style={styles.page}>
             <View style={styles.panel}>
-                {displayInfo()}
+                {RemovableInfo(state.removableInfo, updateStateObject)}
                 <Text>Name: {state.user?.firstName} {state.user?.middleName} {state.user?.lastName}</Text>
                 <Text>Email: {state.user?.email}</Text>
                 <Text>Phone: {state.user?.phone}</Text>
