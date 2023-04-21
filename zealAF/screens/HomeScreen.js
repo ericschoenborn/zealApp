@@ -10,7 +10,6 @@ import {
 import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import 'rsuite/styles/index.less';
 import { getMerchandise, getMerchandiseData } from "../api/ZealAfTestRequest";
 import { Button } from '@rneui/themed';
 
@@ -20,8 +19,9 @@ const HomeScreen = ({ route, navigation }) => {
         if (hash) {
             console.log(hash);
             var oneHour = 60 * 60 * 1000;
-            const nows = new (Date);
-            if ((nows - new Date(hash.now)) > oneHour) {
+            const nows = new Date();
+            new Date(hash.now)
+            if ((nows - ' ') > oneHour) {
                 console.log('clear');
                 localStorage.clear();
             } else {
@@ -62,7 +62,7 @@ const HomeScreen = ({ route, navigation }) => {
     }, []);
     useEffect(() => {
         if (route.params?.loginHash) {
-            var now = new (Date);
+            var now = new Date();
             const hash = route.params.loginHash;
             localStorage.setItem('hash', JSON.stringify({ hash, now }));
             updateStateObject({ loginHash: route.params.loginHash })
@@ -160,7 +160,7 @@ const HomeScreen = ({ route, navigation }) => {
                     }}
                 >
                     <View style={styles.listButton}>
-                        <Text style={{ fonstSize: '30 px' }}>End: {item[1]}</Text>
+                        <Text style={{ fonstSize: '30 px' }}>{item[1]}</Text>
                     </View>
                 </TouchableHighlight>
             )
@@ -168,8 +168,19 @@ const HomeScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-            <View style={{ flex: 1, maxWidth: 500, backgroundColor: 'white', minWidth: 300, alignItems: 'center' }}>
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                <Image
+                    style={{ height: 210, width: 200 }}
+                    source={logo}
+                />
+                <SafeAreaView style={styles.flex}>
+                    <FlatList
+                        extraData={state}
+                        data={state.merchandise}
+                        renderItem={renderItem}
+                    />
+                </SafeAreaView>
                 <Button
                     buttonStyle={[styles.button, styles.right]}
                     title="Go To Map"
@@ -177,27 +188,27 @@ const HomeScreen = ({ route, navigation }) => {
                         navigation.navigate("Location", { hash: state.loginHash });
                     }}
                 />
-                <Image
-                    style={{ height: 50, width: 120 }}
-                    source={logo}
-                />
-                <SafeAreaView style={{ flex: 1 }}>
-                    <FlatList
-                        extraData={state}
-                        data={state.merchandise}
-                        renderItem={renderItem}
-                    />
-                </SafeAreaView>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    page: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center'
+    },
     listButton: {
         backgroundColor: '#DDDDDD',
         padding: 10,
-        margin: 10,
+        margin: 5,
     },
     row: {
         flexDirection: "row",
@@ -209,32 +220,12 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 10,
     },
-    date: {
-        fontStyle: "italic",
-        textAlign: "right",
-        fonstSize: 8,
+    flex: {
+        flex: 1
     },
     list: {
         Height: "50%",
     },
-    container: {
-        flex: 1,
-        paddingTop: 22,
-    },
-    sectionHeader: {
-        paddingTop: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 2,
-        fonSize: 14,
-        fontWeight: 'bold',
-        backgroundColor: 'rgba(247,247,247,1.0)',
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-    }
 });
 
 export default HomeScreen;

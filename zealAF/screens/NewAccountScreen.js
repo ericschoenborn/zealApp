@@ -78,7 +78,7 @@ const NewAccountScreen = ({ route, navigation }) => {
         }, formatedData)
     }
     function validate(value) {
-        return value.length < 1 ? "Requireted" : "";
+        return value.length < 1 ? "Required" : "";
     }
     const createResponse = () => {
         if (state.createResponse.length > 0) {
@@ -116,10 +116,9 @@ const NewAccountScreen = ({ route, navigation }) => {
             updateStateObject({ confirm: "", confirmMask: "" })
         }
     }
-    if (isLoaded) return <View><Text>Loading ...</Text></View>
     return (
-        <View>
-            <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.page}>
+            <View style={styles.panel}>
                 {displayInfo()}
                 <Input
                     style={styles.input}
@@ -205,16 +204,15 @@ const NewAccountScreen = ({ route, navigation }) => {
                     onChangeText={(val) => updateStateObject({ pronouns: val })}
                 />
 
-            </SafeAreaView>
-            {createResponse()}
-            <Button
-                buttonStyle={styles.buttons}
-                title="Create"
-                onPress={() => {
-                    create();
-                }}
-            />
-        </View>
+                {createResponse()}
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Create"
+                    onPress={() => {
+                        create();
+                    }}
+                />
+            </View></View>
     );
 };
 
@@ -226,6 +224,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'scroll'
     },
 });
 

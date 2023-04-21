@@ -13,15 +13,7 @@ const LocationScreen = ({ route, navigation }) => {
         key: "AIzaSyC_4VNhymJHcZwEJa-W458jZSifJUA508M",
         libraries: 'places',
     };
-    const [state, setState] = useState({
-        hash: route.params?.hash || null,
-    });
-    const updateStateObject = (vals) => {
-        setState({
-            ...state,
-            ...vals,
-        });
-    };
+
     useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
@@ -53,47 +45,22 @@ const LocationScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    listButton: {
-        backgroundColor: '#DDDDDD',
-        padding: 10,
-        margin: 10,
-    },
-    row: {
-        flexDirection: "row",
-        width: '100%',
-        justifyContent: 'space-between',
-    },
-    button: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    date: {
-        fontStyle: "italic",
-        textAlign: "right",
-        fonstSize: 8,
-    },
-    list: {
-        Height: "50%",
-    },
     container: {
         flex: 1,
         paddingTop: 22,
     },
-    sectionHeader: {
-        paddingTop: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 2,
-        fonSize: 14,
-        fontWeight: 'bold',
-        backgroundColor: 'rgba(247,247,247,1.0)',
+    page: {
+        flex: 1,
+        alignItems: 'center'
     },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-    }
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 });
 
 export default LocationScreen;

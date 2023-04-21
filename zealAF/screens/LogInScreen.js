@@ -41,7 +41,7 @@ const LogInScreen = ({ route, navigation }) => {
     });
 
     function validate(value) {
-        return value.length < 1 ? "Requireted" : "";
+        return value.length < 1 ? "Required" : "";
     }
 
     function loginUser() {
@@ -74,50 +74,50 @@ const LogInScreen = ({ route, navigation }) => {
         }
     }
     return (
-        <View>
-            <Text>Username and password required</Text>
-            <Input
-                style={styles.input}
-                placeholder="Email"
-                ref={initialField}
-                value={state.email}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.email)}
-                onChangeText={(val) => updateStateObject({ email: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Password"
-                value={state.passwordMask}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.password)}
-                onChangeText={(val) => updatePassword(val)}
-            />
-            {loginErrorMessage()}
-            <Button
-                buttonStyle={styles.buttons}
-                title="Login"
-                onPress={() => {
-                    loginUser()
-                }}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Fogot Password"
-                onPress={() => {
-                    navigation.navigate("Account Recovery");
-                }}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Create Account"
-                onPress={() => {
-                    navigation.navigate("New Account");
-                }}
-            />
-        </View>
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                <Input
+                    style={styles.input}
+                    placeholder="Email"
+                    ref={initialField}
+                    value={state.email}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.email)}
+                    onChangeText={(val) => updateStateObject({ email: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Password"
+                    value={state.passwordMask}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.password)}
+                    onChangeText={(val) => updatePassword(val)}
+                />
+                {loginErrorMessage()}
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Login"
+                    onPress={() => {
+                        loginUser()
+                    }}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Fogot Password"
+                    onPress={() => {
+                        navigation.navigate("Account Recovery");
+                    }}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Create Account"
+                    onPress={() => {
+                        navigation.navigate("New Account");
+                    }}
+                />
+            </View></View>
     );
 };
 
@@ -129,6 +129,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 

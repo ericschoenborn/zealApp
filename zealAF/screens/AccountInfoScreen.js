@@ -79,35 +79,37 @@ const AccountInfoScreen = ({ route, navigation }) => {
     });
 
     return (
-        <View>
-            {displayInfo()}
-            <Text>Name: {state.user?.firstName} {state.user?.middleName} {state.user?.lastName}</Text>
-            <Text>Email: {state.user?.email}</Text>
-            <Text>Phone: {state.user?.phone}</Text>
-            <Text>D.O.B.: {state.user?.dob}</Text>
-            <Text>Pronouns: {state.user?.pronouns}</Text>
-            <Button
-                buttonStyle={styles.buttons}
-                title="Update"
-                onPress={() => {
-                    navigation.navigate("Update Account", { hash: state.hash, user: state.user });
-                }}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Change Password"
-                onPress={() => {
-                    navigation.navigate("Password Reset", { hash: state.hash });
-                }}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Log Out"
-                onPress={() => {
-                    localStorage.clear();
-                    logOutUser();
-                }}
-            />
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                {displayInfo()}
+                <Text>Name: {state.user?.firstName} {state.user?.middleName} {state.user?.lastName}</Text>
+                <Text>Email: {state.user?.email}</Text>
+                <Text>Phone: {state.user?.phone}</Text>
+                <Text>D.O.B.: {state.user?.dob}</Text>
+                <Text>Pronouns: {state.user?.pronouns}</Text>
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Update"
+                    onPress={() => {
+                        navigation.navigate("Update Account", { hash: state.hash, user: state.user });
+                    }}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Change Password"
+                    onPress={() => {
+                        navigation.navigate("Password Reset", { hash: state.hash });
+                    }}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Log Out"
+                    onPress={() => {
+                        localStorage.clear();
+                        logOutUser();
+                    }}
+                />
+            </View>
         </View>
     );
 };
@@ -120,6 +122,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 

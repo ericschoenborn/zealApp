@@ -40,25 +40,27 @@ const RecoverAccountScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View>
-            <Text>Recover Account</Text>
-            <Input
-                style={styles.input}
-                placeholder="One Time Code"
-                ref={initialField}
-                value={state.email}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.email)}
-                onChangeText={(val) => updateStateObject({ email: val })}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Reset Password"
-                onPress={() => {
-                    navigation.navigate("Password Reset");
-                }}
-            />
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                <Text>Recover Account</Text>
+                <Input
+                    style={styles.input}
+                    placeholder="One Time Code"
+                    ref={initialField}
+                    value={state.email}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.email)}
+                    onChangeText={(val) => updateStateObject({ email: val })}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Reset Password"
+                    onPress={() => {
+                        alert('Feature comming soon')
+                    }}
+                />
+            </View>
         </View>
     );
 };
@@ -71,6 +73,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 

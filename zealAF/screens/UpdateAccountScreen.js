@@ -58,7 +58,7 @@ const UpdateAccountScreen = ({ route, navigation }) => {
         }, state.hash, formatedData)
     }
     function validate(value) {
-        return value.length < 1 ? "Requireted" : "";
+        return value.length < 1 ? "Required" : "";
     }
     const updateResponse = () => {
         if (state.updateResponse.length > 0) {
@@ -80,71 +80,73 @@ const UpdateAccountScreen = ({ route, navigation }) => {
     });
 
     return (
-        <View>
-            {displayInfo()}
-            <Input
-                style={styles.input}
-                placeholder="First Name"
-                ref={initialField}
-                value={state.firstName}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.firstName)}
-                onChangeText={(val) => updateStateObject({ firstName: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Middle Name"
-                value={state.middleName}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.middleName)}
-                onChangeText={(val) => updateStateObject({ middleName: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Last Name"
-                value={state.lastName}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.lastName)}
-                onChangeText={(val) => updateStateObject({ lastName: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Phone"
-                value={state.phone}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.phone)}
-                onChangeText={(val) => updateStateObject({ phone: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="D.O.B"
-                value={state.dob}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.dob)}
-                onChangeText={(val) => updateStateObject({ dob: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Pronouns"
-                value={state.pronouns}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.pronouns)}
-                onChangeText={(val) => updateStateObject({ pronouns: val })}
-            />
-            {updateResponse()}
-            <Button
-                buttonStyle={styles.buttons}
-                title="Update"
-                onPress={() => {
-                    update();
-                }}
-            />
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                {displayInfo()}
+                <Input
+                    style={styles.input}
+                    placeholder="First Name"
+                    ref={initialField}
+                    value={state.firstName}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.firstName)}
+                    onChangeText={(val) => updateStateObject({ firstName: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Middle Name"
+                    value={state.middleName}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.middleName)}
+                    onChangeText={(val) => updateStateObject({ middleName: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Last Name"
+                    value={state.lastName}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.lastName)}
+                    onChangeText={(val) => updateStateObject({ lastName: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Phone"
+                    value={state.phone}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.phone)}
+                    onChangeText={(val) => updateStateObject({ phone: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="D.O.B"
+                    value={state.dob}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.dob)}
+                    onChangeText={(val) => updateStateObject({ dob: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Pronouns"
+                    value={state.pronouns}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.pronouns)}
+                    onChangeText={(val) => updateStateObject({ pronouns: val })}
+                />
+                {updateResponse()}
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Update"
+                    onPress={() => {
+                        update();
+                    }}
+                />
+            </View>
         </View>
     );
 };
@@ -157,6 +159,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 

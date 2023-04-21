@@ -61,34 +61,36 @@ const PasswordResetScreen = ({ route, navigation }) => {
         }
     }
     return (
-        <View>
-            <Input
-                style={styles.input}
-                placeholder="New Password"
-                ref={initialField}
-                value={state.newPass}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.newPass)}
-                onChangeText={(val) => updateStateObject({ newPass: val })}
-            />
-            <Input
-                style={styles.input}
-                placeholder="Confirm Password"
-                value={state.confirmPass}
-                autoCorrect={false}
-                errorStyle={styles.inputError}
-                errorMessage={validate(state.confirmPass)}
-                onChangeText={(val) => updateStateObject({ confirmPass: val })}
-            />
-            <Button
-                buttonStyle={styles.buttons}
-                title="Update"
-                onPress={() => {
-                    updateUserPassword();
-                }}
-            />
-            {errorMessage()}
+        <View style={styles.page}>
+            <View style={styles.panel}>
+                <Input
+                    style={styles.input}
+                    placeholder="New Password"
+                    ref={initialField}
+                    value={state.newPass}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.newPass)}
+                    onChangeText={(val) => updateStateObject({ newPass: val })}
+                />
+                <Input
+                    style={styles.input}
+                    placeholder="Confirm Password"
+                    value={state.confirmPass}
+                    autoCorrect={false}
+                    errorStyle={styles.inputError}
+                    errorMessage={validate(state.confirmPass)}
+                    onChangeText={(val) => updateStateObject({ confirmPass: val })}
+                />
+                <Button
+                    buttonStyle={styles.buttons}
+                    title="Update"
+                    onPress={() => {
+                        updateUserPassword();
+                    }}
+                />
+                {errorMessage()}
+            </View>
         </View>
     );
 };
@@ -101,6 +103,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#14A99D',
         margin: 10,
         borderRadius: 10,
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    panel: {
+        flex: 1,
+        maxWidth: 500,
+        backgroundColor: 'white',
+        minWidth: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 
