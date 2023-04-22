@@ -4,11 +4,13 @@ import {
     View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Input } from '@rneui/themed';
+import { Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { updateUser } from "../api/ZealAfTestRequest";
 import { RemovableError } from "../components/RemovableError";
 import { RemovableInfo } from "../components/RemovableInfo";
+import { PanelCenter } from "../components/PanelCenter";
+import { BaseButton } from "../components/BaseButton";
 
 const UpdateAccountScreen = ({ route, navigation }) => {
     const initialField = useRef(null);
@@ -83,97 +85,77 @@ const UpdateAccountScreen = ({ route, navigation }) => {
     });
 
     return (
-        <View style={styles.page}>
-            <View style={styles.panel}>
-                <Input
-                    style={styles.input}
-                    placeholder="First Name"
-                    ref={initialField}
-                    value={state.firstName}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.firstName)}
-                    onChangeText={(val) => updateStateObject({ firstName: val })}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="Middle Name"
-                    value={state.middleName}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.middleName)}
-                    onChangeText={(val) => updateStateObject({ middleName: val })}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="Last Name"
-                    value={state.lastName}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.lastName)}
-                    onChangeText={(val) => updateStateObject({ lastName: val })}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="Phone"
-                    value={state.phone}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.phone)}
-                    onChangeText={(val) => updateStateObject({ phone: val })}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="D.O.B"
-                    value={state.dob}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.dob)}
-                    onChangeText={(val) => updateStateObject({ dob: val })}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="Pronouns"
-                    value={state.pronouns}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.pronouns)}
-                    onChangeText={(val) => updateStateObject({ pronouns: val })}
-                />
-                {RemovableError(state.removableError, updateStateObject)}
-                {RemovableInfo(state.removableInfo, updateStateObject)}
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Update"
-                    onPress={() => {
-                        update();
-                    }}
-                />
-            </View>
-        </View>
+        <PanelCenter>
+            <Input
+                style={styles.input}
+                placeholder="First Name"
+                ref={initialField}
+                value={state.firstName}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.firstName)}
+                onChangeText={(val) => updateStateObject({ firstName: val })}
+            />
+            <Input
+                style={styles.input}
+                placeholder="Middle Name"
+                value={state.middleName}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.middleName)}
+                onChangeText={(val) => updateStateObject({ middleName: val })}
+            />
+            <Input
+                style={styles.input}
+                placeholder="Last Name"
+                value={state.lastName}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.lastName)}
+                onChangeText={(val) => updateStateObject({ lastName: val })}
+            />
+            <Input
+                style={styles.input}
+                placeholder="Phone"
+                value={state.phone}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.phone)}
+                onChangeText={(val) => updateStateObject({ phone: val })}
+            />
+            <Input
+                style={styles.input}
+                placeholder="D.O.B"
+                value={state.dob}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.dob)}
+                onChangeText={(val) => updateStateObject({ dob: val })}
+            />
+            <Input
+                style={styles.input}
+                placeholder="Pronouns"
+                value={state.pronouns}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.pronouns)}
+                onChangeText={(val) => updateStateObject({ pronouns: val })}
+            />
+            {RemovableError(state.removableError, updateStateObject)}
+            {RemovableInfo(state.removableInfo, updateStateObject)}
+            <BaseButton
+                title="Update"
+                onPress={() => {
+                    update();
+                }}
+            />
+        </PanelCenter>
     );
 };
 
 const styles = StyleSheet.create({
     input: {
         padding: 10,
-    },
-    buttons: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
 });
 

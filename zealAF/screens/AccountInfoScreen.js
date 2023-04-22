@@ -1,14 +1,13 @@
 import {
-    StyleSheet,
     Text,
     TouchableOpacity,
-    View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { Button } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { logOut, getUser } from "../api/ZealAfTestRequest";
 import { RemovableInfo } from "../components/RemovableInfo";
+import { PanelCenter } from "../components/PanelCenter";
+import { BaseButton } from "../components/BaseButton";
 
 const AccountInfoScreen = ({ route, navigation }) => {
     const givenHash = route.params?.hash || null;
@@ -80,62 +79,34 @@ const AccountInfoScreen = ({ route, navigation }) => {
     });
 
     return (
-        <View style={styles.page}>
-            <View style={styles.panel}>
-                {RemovableInfo(state.removableInfo, updateStateObject)}
-                <Text>Name: {state.user?.firstName} {state.user?.middleName} {state.user?.lastName}</Text>
-                <Text>Email: {state.user?.email}</Text>
-                <Text>Phone: {state.user?.phone}</Text>
-                <Text>D.O.B.: {state.user?.dob}</Text>
-                <Text>Pronouns: {state.user?.pronouns}</Text>
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Update"
-                    onPress={() => {
-                        navigation.navigate("Update Account", { hash: state.hash, user: state.user });
-                    }}
-                />
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Change Password"
-                    onPress={() => {
-                        navigation.navigate("Password Reset", { hash: state.hash });
-                    }}
-                />
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Log Out"
-                    onPress={() => {
-                        localStorage.clear();
-                        logOutUser();
-                    }}
-                />
-            </View>
-        </View>
+        <PanelCenter>
+            {RemovableInfo(state.removableInfo, updateStateObject)}
+            <Text>Name: {state.user?.firstName} {state.user?.middleName} {state.user?.lastName}</Text>
+            <Text>Email: {state.user?.email}</Text>
+            <Text>Phone: {state.user?.phone}</Text>
+            <Text>D.O.B.: {state.user?.dob}</Text>
+            <Text>Pronouns: {state.user?.pronouns}</Text>
+            <BaseButton
+                title="Update"
+                onPress={() => {
+                    navigation.navigate("Update Account", { hash: state.hash, user: state.user });
+                }}
+            />
+            <BaseButton
+                title="Change Password"
+                onPress={() => {
+                    navigation.navigate("Password Reset", { hash: state.hash });
+                }}
+            />
+            <BaseButton
+                title="Log Out"
+                onPress={() => {
+                    localStorage.clear();
+                    logOutUser();
+                }}
+            />
+        </PanelCenter>
     );
 };
-
-const styles = StyleSheet.create({
-    input: {
-        padding: 10,
-    },
-    buttons: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-});
 
 export default AccountInfoScreen;

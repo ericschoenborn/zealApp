@@ -1,14 +1,10 @@
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Text,
-    View,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
 import GoogleMap from 'google-map-react';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { PanelCenter } from "../components/PanelCenter";
 
-const LocationScreen = ({ route, navigation }) => {
+const LocationScreen = ({ navigation }) => {
     const GoogleMapConfig = {
         key: "AIzaSyC_4VNhymJHcZwEJa-W458jZSifJUA508M",
         libraries: 'places',
@@ -29,43 +25,22 @@ const LocationScreen = ({ route, navigation }) => {
     });
     const MapPin = () => <FontAwesome name="map-marker" size={24} color="red" />;
     return (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-            <View style={{ flex: 1, maxWidth: 500, backgroundColor: 'white', minWidth: 300, alignItems: 'center' }}>
-                <GoogleMap
-                    yesIWantToUseGoogleMapApiInternals
-                    bootstrapURLKeys={GoogleMapConfig}
-                    defaultZoom={14}
-                    defaultCenter={{
-                        lat: 42.94232,
-                        lng: -85.6854,
-                    }}
-                ><MapPin
-                        lat={42.94232}
-                        lng={-85.6854}
-                    />
-                </GoogleMap>
-            </View>
-        </View>
+        <PanelCenter>
+            <GoogleMap
+                yesIWantToUseGoogleMapApiInternals
+                bootstrapURLKeys={GoogleMapConfig}
+                defaultZoom={14}
+                defaultCenter={{
+                    lat: 42.94232,
+                    lng: -85.6854,
+                }}
+            ><MapPin
+                    lat={42.94232}
+                    lng={-85.6854}
+                />
+            </GoogleMap>
+        </PanelCenter>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 22,
-    },
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-});
 
 export default LocationScreen;

@@ -5,11 +5,12 @@ import {
     View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Input } from '@rneui/themed';
-
+import { Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
+import { PanelCenter } from "../components/PanelCenter";
+import { BaseButton } from "../components/BaseButton";
 
-const RecoverAccountScreen = ({ route, navigation }) => {
+const RecoverAccountScreen = ({ navigation }) => {
     const initialField = useRef(null);
     const [state, setState] = useState({
         email: "",
@@ -40,51 +41,31 @@ const RecoverAccountScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={styles.page}>
-            <View style={styles.panel}>
-                <Text>Recover Account</Text>
-                <Input
-                    style={styles.input}
-                    placeholder="One Time Code"
-                    ref={initialField}
-                    value={state.email}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.email)}
-                    onChangeText={(val) => updateStateObject({ email: val })}
-                />
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Reset Password"
-                    onPress={() => {
-                        alert('Feature comming soon')
-                    }}
-                />
-            </View>
-        </View>
+        <PanelCenter>
+            <Text>Recover Account</Text>
+            <Input
+                style={styles.input}
+                placeholder="One Time Code"
+                ref={initialField}
+                value={state.email}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.email)}
+                onChangeText={(val) => updateStateObject({ email: val })}
+            />
+            <BaseButton
+                title="Reset Password"
+                onPress={() => {
+                    alert('Feature comming soon')
+                }}
+            />
+        </PanelCenter>
     );
 };
 
 const styles = StyleSheet.create({
     input: {
         padding: 10,
-    },
-    buttons: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
 });
 

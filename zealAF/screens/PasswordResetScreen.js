@@ -4,11 +4,13 @@ import {
     View
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Input } from '@rneui/themed';
+import { Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { updatePassword } from "../api/ZealAfTestRequest";
 import { RemovableError } from "../components/RemovableError";
 import { setConfirm, setPassword } from "../helpers/HelperFunctions";
+import { PanelCenter } from "../components/PanelCenter";
+import { BaseButton } from "../components/BaseButton";
 
 const PasswordResetScreen = ({ route, navigation }) => {
     const givenHash = route.params.hash;
@@ -58,60 +60,40 @@ const PasswordResetScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={styles.page}>
-            <View style={styles.panel}>
-                <Input
-                    style={styles.input}
-                    placeholder="New Password"
-                    ref={initialField}
-                    value={state.passwordMask}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.password)}
-                    onChangeText={(val) => setPassword(state.password, val, updateStateObject)}
-                />
-                <Input
-                    style={styles.input}
-                    placeholder="Confirm Password"
-                    value={state.confirmMask}
-                    autoCorrect={false}
-                    errorStyle={styles.inputError}
-                    errorMessage={validate(state.confirm)}
-                    onChangeText={(val) => setConfirm(state.confirm, val, updateStateObject)}
-                />
-                <Button
-                    buttonStyle={styles.buttons}
-                    title="Update"
-                    onPress={() => {
-                        updateUserPassword();
-                    }}
-                />
-                {RemovableError(state.removableError, updateStateObject)}
-            </View>
-        </View>
+        <PanelCenter>
+            <Input
+                style={styles.input}
+                placeholder="New Password"
+                ref={initialField}
+                value={state.passwordMask}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.password)}
+                onChangeText={(val) => setPassword(state.password, val, updateStateObject)}
+            />
+            <Input
+                style={styles.input}
+                placeholder="Confirm Password"
+                value={state.confirmMask}
+                autoCorrect={false}
+                errorStyle={styles.inputError}
+                errorMessage={validate(state.confirm)}
+                onChangeText={(val) => setConfirm(state.confirm, val, updateStateObject)}
+            />
+            <BaseButton
+                title="Update"
+                onPress={() => {
+                    updateUserPassword();
+                }}
+            />
+            {RemovableError(state.removableError, updateStateObject)}
+        </PanelCenter>
     );
 };
 
 const styles = StyleSheet.create({
     input: {
         padding: 10,
-    },
-    buttons: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
 });
 

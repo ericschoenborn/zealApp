@@ -11,7 +11,9 @@ import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { getMerchandise, getMerchandiseData } from "../api/ZealAfTestRequest";
-import { Button } from '@rneui/themed';
+import { RemovableInfo } from "../components/RemovableInfo";
+import { PanelScroll } from "../components/PanelScroll";
+import { BaseButton } from "../components/BaseButton";
 
 const HomeScreen = ({ route, navigation }) => {
     const getHash = () => {
@@ -34,6 +36,7 @@ const HomeScreen = ({ route, navigation }) => {
         loginHash: getHash(),
         merchandise: null,
         selected: null,
+        removableInfo: '',
     });
     const updateStateObject = (vals) => {
         setState({
@@ -52,6 +55,7 @@ const HomeScreen = ({ route, navigation }) => {
             }
         });
     }, []);
+
     useEffect(() => {
         if (route.params?.loginHash) {
             var now = new Date();
@@ -67,6 +71,13 @@ const HomeScreen = ({ route, navigation }) => {
             updateStateObject({ loginHash: null, loginTime: null })
         }
     }, [route.params?.logOut]);
+
+    useEffect(() => {
+        console.log(route.params)
+        if (route.params?.info) {
+            updateStateObject({ removableInfo: route.params.info });
+        }
+    }, [route.params?.info]);
 
     useEffect(() => {
         navigation.setOptions({
@@ -109,8 +120,7 @@ const HomeScreen = ({ route, navigation }) => {
             }
         }, id);
     }
-    const renderItem = ({ index, item }) => {
-        console.log(`myId: ${state.selected} yours: ${item[0]}`);
+    const renderItem = ({ item }) => {
         if (state.selected && item[0] == state.selected.id) {
             return (
                 <TouchableHighlight
@@ -124,13 +134,11 @@ const HomeScreen = ({ route, navigation }) => {
                             <Text style={{ fonstSize: '18 px' }}>Remaining: {state.selected.quantity}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Button
-                                buttonStyle={styles.button}
+                            <BaseButton
                                 title="Close"
                                 onPress={() => { updateStateObject({ selected: null }) }}
                             />
-                            <Button
-                                buttonStyle={[styles.button, styles.right]}
+                            <BaseButton
                                 title="Purchase"
                                 onPress={() => {
                                     if (state.loginHash) {
@@ -161,43 +169,30 @@ const HomeScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={styles.page}>
-            <View style={styles.panel}>
-                <Image
-                    style={{ height: 210, width: 200 }}
-                    source={logo}
+        <PanelScroll>
+            {RemovableInfo(state.removableInfo, updateStateObject)}
+            <Image
+                style={{ height: 300, width: 200 }}
+                source={logo}
+            />
+            <SafeAreaView style={{ height: '300px' }}>
+                <FlatList
+                    extraData={state}
+                    data={state.merchandise}
+                    renderItem={renderItem}
                 />
-                <SafeAreaView style={styles.flex}>
-                    <FlatList
-                        extraData={state}
-                        data={state.merchandise}
-                        renderItem={renderItem}
-                    />
-                </SafeAreaView>
-                <Button
-                    buttonStyle={[styles.button, styles.right]}
-                    title="Go To Map"
-                    onPress={() => {
-                        navigation.navigate("Location", { hash: state.loginHash });
-                    }}
-                />
-            </View>
-        </View>
+            </SafeAreaView>
+            <BaseButton
+                title="Go To Map"
+                onPress={() => {
+                    navigation.navigate("Location", { hash: state.loginHash });
+                }}
+            />
+        </PanelScroll>
     );
 };
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    panel: {
-        flex: 1,
-        maxWidth: 500,
-        backgroundColor: 'white',
-        minWidth: 300,
-        alignItems: 'center'
-    },
     listButton: {
         backgroundColor: '#DDDDDD',
         padding: 10,
@@ -207,14 +202,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: '100%',
         justifyContent: 'space-between',
-    },
-    button: {
-        backgroundColor: '#14A99D',
-        margin: 10,
-        borderRadius: 10,
-    },
-    flex: {
-        flex: 1
     },
     list: {
         Height: "50%",
