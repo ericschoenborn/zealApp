@@ -7,6 +7,7 @@ import { Input } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { postTest } from '../api/ZealAfTestRequest';
 import { RemovableError } from "../components/RemovableError";
+import { setConfirm, setPassword } from "../helpers/HelperFunctions";
 import { PanelCenter } from "../components/PanelCenter";
 import { BaseButton } from "../components/BaseButton";
 
@@ -51,22 +52,13 @@ const LogInScreen = ({ navigation }) => {
             console.log(data);
             if (data[0]) {
                 const loginHash = data[1];
-                navigation.navigate("Zeal Areal Fitness", { loginHash });
+                navigation.navigate("Zeal Areal Fitness", { loginHash: loginHash });
             } else {
                 updateStateObject({ removableError: data[1], password: "", passwordMask: "" })
             }
         }, state.email, state.password);
     }
 
-    const updatePassword = (val) => {
-        if (val.length > 0) {
-            const newPass = `${state.password}${val.slice(-1)}`;
-            const newMask = `${val.slice(0, -1)}*`;
-            updateStateObject({ password: newPass, passwordMask: newMask })
-        } else {
-            updateStateObject({ password: "", passwordMask: "" })
-        }
-    }
     return (
         <PanelCenter>
             <Input
@@ -86,7 +78,7 @@ const LogInScreen = ({ navigation }) => {
                 autoCorrect={false}
                 errorStyle={styles.inputError}
                 errorMessage={validate(state.password)}
-                onChangeText={(val) => updatePassword(val)}
+                onChangeText={(val) => setPassword(state.password, val, updateStateObject)}
             />
             {RemovableError(state.removableError, updateStateObject)}
             <BaseButton
