@@ -3,10 +3,12 @@ import React, { useEffect } from "react";
 import GoogleMap from 'google-map-react';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { PanelCenter } from "../components/PanelCenter";
+import { googleKey } from "../helpers/googleKey";
 
 const LocationScreen = ({ navigation }) => {
+    console.log(googleKey())
     const GoogleMapConfig = {
-        key: "AIzaSyC_4VNhymJHcZwEJa-W458jZSifJUA508M",
+        key: googleKey(),
         libraries: 'places',
     };
 
